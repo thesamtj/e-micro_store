@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Catalog.Core\Catalog.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\SeedData\" />
-  </ItemGroup>
-
 </Project>
