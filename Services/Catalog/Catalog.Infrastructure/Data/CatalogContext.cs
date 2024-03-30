@@ -17,14 +17,14 @@ namespace Catalog.Infrastructure.Data
 
         public CatalogContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
+            var client = new MongoClient(configuration.GetSection("DatabaseSettings").GetConnectionString("ConnectionString"));
+            var database = client.GetDatabase(configuration.GetSection("DatabaseSettings").GetConnectionString("DatabaseName"));
             Brands = database.GetCollection<ProductBrand>(
-                configuration.GetValue<string>("DatabaseSettings:BrandsCollection"));
+                configuration.GetSection("DatabaseSettings").GetConnectionString("BrandsCollection"));
             Types = database.GetCollection<ProductType>(
-                configuration.GetValue<string>("DatabaseSettings:TypesCollection"));
+                configuration.GetSection("DatabaseSettings").GetConnectionString("TypesCollection"));
             Products = database.GetCollection<Product>(
-                configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+                configuration.GetSection("DatabaseSettings").GetConnectionString("CollectionName"));
 
             BrandContextSeed.SeedData(Brands);
             TypeContextSeed.SeedData(Types);
