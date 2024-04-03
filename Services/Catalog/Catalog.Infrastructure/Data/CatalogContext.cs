@@ -20,11 +20,11 @@ namespace Catalog.Infrastructure.Data
             var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
             var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
             Brands = database.GetCollection<ProductBrand>(
-                configuration["DatabaseSettings:CollectionName"]);
-            Types = database.GetCollection<ProductType>(
                 configuration["DatabaseSettings:BrandsCollection"]);
-            Products = database.GetCollection<Product>(
+            Types = database.GetCollection<ProductType>(
                 configuration["DatabaseSettings:TypesCollection"]);
+            Products = database.GetCollection<Product>(
+                configuration["DatabaseSettings:CollectionName"]);
 
             BrandContextSeed.SeedData(Brands);
             TypeContextSeed.SeedData(Types);

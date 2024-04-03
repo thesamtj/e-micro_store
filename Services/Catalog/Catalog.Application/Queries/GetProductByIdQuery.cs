@@ -17,3 +17,4 @@ namespace Catalog.Application.Queries
             Id = id;
         }
     }
+}
