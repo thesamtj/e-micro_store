@@ -1,6 +1,7 @@
 ﻿using Basket.Core.Entities;
 using Basket.Core.Repositories;
 using Basket.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
@@ -22,7 +23,12 @@ namespace Basket.Infrastructure.Repositories
 
         public async Task<ShoppingCart> GetBasket(string userName)
         {
-            return await _context.ShoppingCarts.FindAsync(userName);
+            var basket = await _context.ShoppingCarts
+                .Where(x => x.UserName == userName)
+                .Include(y => y.Items)
+                .FirstOrDefaultAsync();
+
+            return basket;
         }
 
         public async Task<ShoppingCart> UpdateBasket(ShoppingCart shoppingCart)
