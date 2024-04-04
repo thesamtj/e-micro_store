@@ -15,7 +15,6 @@ builder.Services.AddApiVersioning();
 builder.Services.AddHealthChecks()
             .AddMongoDb(builder.Configuration["DatabaseSettings:ConnectionString"], "Catalog  Mongo Db Health Check",
                 HealthStatus.Degraded);
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
 
 //DI
 builder.Services.AddAutoMapper(typeof(Program));
@@ -28,7 +27,7 @@ builder.Services.AddScoped<ITypesRepository, ProductRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
 
 var app = builder.Build();
 
@@ -49,16 +48,12 @@ app.UseAuthorization();
 
 app.UseStaticFiles();
 
-//app.MapControllers();
+app.MapControllers();
 
-app.UseEndpoints(endpoints =>
+app.MapHealthChecks("/health", new HealthCheckOptions()
 {
-    endpoints.MapControllers();
-    endpoints.MapHealthChecks("/health", new HealthCheckOptions()
-    {
-        Predicate = _ => true,
-        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-    });
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
 app.Run();
