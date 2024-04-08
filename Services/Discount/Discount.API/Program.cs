@@ -13,6 +13,7 @@ builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSetti
 //DI
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDiscountCommandHandler).Assembly));
+builder.Services.AddSingleton<DiscountContext>();
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddGrpc();
 
