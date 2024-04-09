@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basket.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(BasketContext))]
-    [Migration("20240404152154_InitialCreate")]
+    [Migration("20240408175319_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
