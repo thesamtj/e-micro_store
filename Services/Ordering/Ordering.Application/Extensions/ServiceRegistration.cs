@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Behaviour;
 using Ordering.Application.Handlers;
+using Ordering.Application.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace Ordering.Application.Extensions
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CheckoutOrderCommandHandler).Assembly));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            //services.AddValidatorsFromAssemblyContaining<CheckoutOrderCommandValidator>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             return services;
