@@ -5,17 +5,18 @@ using Discount.Infrastructure.Data;
 using Discount.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 // Add services to the container.
+services.AddGrpc();
 // configure strongly typed settings object
-builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
+services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
 
 //DI
-builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDiscountCommandHandler).Assembly));
-builder.Services.AddSingleton<DiscountContext>();
-builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
-builder.Services.AddGrpc();
+services.AddAutoMapper(typeof(Program));
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDiscountCommandHandler).Assembly));
+services.AddSingleton<DiscountContext>();
+services.AddScoped<IDiscountRepository, DiscountRepository>();
 
 var app = builder.Build();
 

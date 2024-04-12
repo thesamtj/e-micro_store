@@ -7,38 +7,38 @@ using Discount.Grpc.Protos;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 // Add services to the container.
-builder.Services.AddApiVersioning();
-builder.Services.AddDbContext<BasketContext>(opt =>
+services.AddControllers();
+services.AddApiVersioning();
+services.AddDbContext<BasketContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddHealthChecks();
+services.AddHealthChecks().Services.AddDbContext<BasketContext>();
 
 //DI
-builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateShoppingCartCommandHandler).Assembly));
-// builder.Services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
-builder.Services.AddScoped<DiscountGrpcService>();
-builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
+services.AddAutoMapper(typeof(Program));
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateShoppingCartCommandHandler).Assembly));
+// services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+services.AddScoped<IBasketRepository, BasketRepository>();
+services.AddScoped<DiscountGrpcService>();
+services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
             (o => o.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
 }
