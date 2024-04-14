@@ -1,17 +1,13 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Commands;
+using Ordering.Application.Exceptions;
 using Ordering.Core.Entities;
 using Ordering.Core.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ordering.Application.Handlers
 {
-    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
+    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, Unit>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ILogger<DeleteOrderCommandHandler> _logger;
