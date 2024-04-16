@@ -32,7 +32,7 @@ services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
             (o => o.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
 services.AddMassTransit(config =>
 {
-    config.UsingRabbitMq((ct, cfg) =>
+    config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
     });
