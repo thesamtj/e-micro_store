@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Ordering.Infrastructure.Data;
 
 namespace Ordering.API.Extensions
 {
@@ -27,7 +29,7 @@ namespace Ordering.API.Extensions
                     //            logger.LogError("Retrying because of {exception} {retry}", exception, span);
                     //        });
                     //retry.Execute(() => CallSeeder(seeder, context, services));
-                    CallSeeder(seeder, context, services);
+                    CallSeeder<TContext>(seeder, context, services);
                     logger.LogInformation($"Migration Completed: {typeof(TContext).Name}");
                 }
                 catch (SqlException e)
