@@ -5,6 +5,7 @@ using Basket.Infrastructure.Data;
 using Basket.Infrastructure.Repositories;
 using Discount.Grpc.Protos;
 using HealthChecks.UI.Client;
+using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -29,6 +30,14 @@ services.AddScoped<IBasketRepository, BasketRepository>();
 services.AddScoped<DiscountGrpcService>();
 services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
             (o => o.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
+services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((ct, cfg) =>
+    {
+        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+    });
+});
+//services.AddMassTransitHostedService(); Remove, it is automatically registered
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
