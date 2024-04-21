@@ -49,6 +49,17 @@ services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bask
  var userPolicy = new AuthorizationPolicyBuilder()
      .RequireAuthenticatedUser()
      .Build();
+services.AddControllers(config =>
+{
+    config.Filters.Add(new AuthorizeFilter(userPolicy));
+});
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:9009";
+        options.Audience = "Basket";
+    });
 
 services.AddControllers(config =>
 {
