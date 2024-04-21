@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -16,6 +17,16 @@ namespace Identity.API
                 new IdentityResources.Profile(),
             };
 
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new ApiScope[]
+            {
+                new ApiScope("catalogapi"),
+                new ApiScope("basketapi"),
+                new ApiScope("catalogapi.read"),
+                new ApiScope("catalogapi.write"),
+                new ApiScope("e-microstoregateway")
+            };
+
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
@@ -28,53 +39,84 @@ namespace Identity.API
                 {
                     Scopes = {"basketapi"}
                 },
-                new ApiResource("EShoppingGateway", "EShopping Gateway")
+                new ApiResource("E-MicroStoreGateway", "E-MicroStore Gateway")
                 {
-                    Scopes = {"eshoppinggateway", "basketapi"}
+                    Scopes = { "e-microstoregateway", "basketapi"}
                 },
-                new ApiResource("eshoppingAngular", "EShopping Angular")
+                new ApiResource("E-MicroStoreAngular", "E-MicroStore Angular")
                 {
-                    Scopes = {"eshoppinggateway", "catalogapi.read", "catalogapi.write", "basketapi", "catalogapi.read"}
+                    Scopes = { "e-microstoregateway", "catalogapi.read", "catalogapi.write", "basketapi", "catalogapi.read"}
                 }
-            };
-
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // m2m client credentials flow client
+                //m2m flow 
                 new Client
                 {
-                    ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
-
+                    ClientName = "Catalog API Client",
+                    ClientId = "CatalogApiClient",
+                    ClientSecrets = {new Secret("5c6eb3b4-61a7-4668-ac57-2b4591ec26d2".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "scope1" }
+                    AllowedScopes = { "catalogapi.read", "catalogapi.write" }
+                },
+                new Client
+                {
+                    ClientName = "Basket API Client",
+                    ClientId = "BasketApiClient",
+                    ClientSecrets = {new Secret("5c6ec4c5-61a7-4668-ac57-2b4591ec26d2".Sha256())},
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = {"basketapi"}
                 },
 
-                // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "interactive",
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-                    
+                    ClientName = "E-MicroStore Gateway Client",
+                    ClientId = "E-MicroStoreGateway",
+                    ClientSecrets = {new Secret("5c7fd5c5-61a7-4668-ac57-2b4591ec26d2".Sha256())},
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = { "e-microstoregateway", "basketapi"}
+                },
+                new Client
+                {
+                    ClientName = "Angular-Client",
+                    ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44300/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+                    RedirectUris = new List<string>
+                        {
+                            "http://localhost:4200/signin-callback",
+                            "http://localhost:4200/assets/silent-callback.html",
+                            "https://localhost:9009/signin-oidc"
+                        },
+                    RequirePkce = true,
+                    AllowAccessTokensViaBrowser = true,
+                    Enabled = true,
+                    UpdateAccessTokenClaimsOnRefresh = true,
 
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2" }
-                },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "e-microstoregateway"
+                    },
+                    AllowedCorsOrigins = {"http://localhost:4200"},
+                    RequireClientSecret = false,
+                    AllowRememberConsent = false,
+                    //PostLogoutRedirectUris = new List<string> {"http://localhost:4200/signout-callback"},
+                    RequireConsent = false,
+                    AccessTokenLifetime = 3600,
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:4200/signout-callback",
+                        "https://localhost:9009/signout-callback-oidc"
+                    },
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("5c6eb3b4-61a7-4668-ac57-2b4591ec26d2".Sha256())
+                    }
+                }
             };
     }
 }

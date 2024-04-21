@@ -3,31 +3,57 @@ using Catalog.Core.Repositories;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 // Add services to the container.
-builder.Services.AddApiVersioning();
-builder.Services.AddHealthChecks()
+services.AddApiVersioning();
+services.AddHealthChecks()
             .AddMongoDb(builder.Configuration["DatabaseSettings:ConnectionString"], "Catalog  Mongo Db Health Check",
                 HealthStatus.Degraded);
 
 //DI
-builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly));
-// builder.Services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
-builder.Services.AddScoped<ICatalogContext, CatalogContext>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IBrandRepository, ProductRepository>();
-builder.Services.AddScoped<ITypesRepository, ProductRepository>();
-builder.Services.AddControllers();
+services.AddAutoMapper(typeof(Program));
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly));
+// services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+services.AddScoped<ICatalogContext, CatalogContext>();
+services.AddScoped<IProductRepository, ProductRepository>();
+services.AddScoped<IBrandRepository, ProductRepository>();
+services.AddScoped<ITypesRepository, ProductRepository>();
+services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
+//Identity Server changes
+var userPolicy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+
+services.AddControllers(config =>
+{
+    config.Filters.Add(new AuthorizeFilter(userPolicy));
+});
+
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.Authority = "https://localhost:9009";
+            options.Audience = "Catalog";
+        });
+
+//services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("CanRead", policy => policy.RequireClaim("scope", "catalogapi.read"));
+//});
 
 var app = builder.Build();
 
