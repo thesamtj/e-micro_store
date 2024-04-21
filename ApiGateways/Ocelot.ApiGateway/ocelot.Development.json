@@ -111,10 +111,10 @@
       "UpstreamPathTemplate": "/Basket/CreateBasket",
       "UpstreamHttpMethod": [
         "POST"
-      ]
-      //      "AuthenticationOptions": {
-      //        "AuthenticationProviderKey": "EShoppingGatewayAuthScheme"
-      //      }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "E-MicroStoreGatewayAuthScheme"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
