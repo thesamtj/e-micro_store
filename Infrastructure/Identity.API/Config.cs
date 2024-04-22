@@ -73,10 +73,10 @@ namespace Identity.API
                 new Client
                 {
                     ClientName = "E-MicroStore Gateway Client",
-                    ClientId = "E-MicroStoreGateway",
+                    ClientId = "E-MicroStoreGatewayClient",
                     ClientSecrets = {new Secret("5c7fd5c5-61a7-4668-ac57-2b4591ec26d2".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "e-microstoregateway", "basketapi"}
+                    AllowedScopes = { "e-microstoregateway", "basketapi", "catalogapi.read" }
                 },
                 new Client
                 {

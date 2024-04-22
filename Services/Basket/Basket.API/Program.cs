@@ -61,18 +61,6 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Audience = "Basket";
     });
 
-services.AddControllers(config =>
-{
-    config.Filters.Add(new AuthorizeFilter(userPolicy));
-});
-
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = "https://localhost:9009";
-        options.Audience = "Basket";
-    });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

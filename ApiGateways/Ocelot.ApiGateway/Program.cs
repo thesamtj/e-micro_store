@@ -12,12 +12,12 @@ var environment = builder.Environment;
 configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);
 var authScheme = "E-MicroStoreGatewayAuthScheme";
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.Authority = "https://localhost:9009";
-    options.Audience = "E-MicroStoreGateway";
-});
-//.AddJwtBearer(authScheme, options =>
+        .AddJwtBearer(authScheme, options =>
+        {
+            options.Authority = "https://localhost:9009";
+            options.Audience = "E-MicroStoreGateway";
+        });
+//.AddJwtBearer(options =>
 //{
 //    options.Authority = "https://localhost:9009";
 //    options.Audience = "E-MicroStoreGateway";
