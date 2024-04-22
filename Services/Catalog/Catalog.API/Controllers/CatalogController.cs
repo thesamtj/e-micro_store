@@ -57,7 +57,7 @@ namespace Catalog.API.Controllers
             }
             catch (Exception e)
             {
-                // _logger.LogError(e, "An Exception has occured: {Exception}");
+                _logger.LogError("An Exception has occured: {e}", e);
                 throw;
             }
         }
