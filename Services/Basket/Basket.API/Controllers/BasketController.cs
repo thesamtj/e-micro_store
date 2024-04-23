@@ -72,7 +72,7 @@ namespace Basket.API.Controllers
 
             var eventMesg = BasketMapper.Mapper.Map<BasketCheckoutEvent>(basketCheckout);
             eventMesg.TotalPrice = basket.TotalPrice;
-            // eventMesg.CorrelationId = _correlationIdGenerator.Get();
+            eventMesg.CorrelationId = _correlationIdGenerator.Get();
             await _publishEndpoint.Publish(eventMesg);
             //remove the basket
             var deleteQuery = new DeleteBasketByUserNameQuery(basketCheckout.UserName);
