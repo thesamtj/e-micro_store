@@ -11,6 +11,7 @@ using MassTransit;
 using EventBus.Messages.Common;
 using Common.Logging;
 using Serilog;
+using Common.Logging.Correlation;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -27,6 +28,7 @@ services.AddApplicationServices();
 services.AddInfraServices(configuration);
 services.AddHealthChecks().Services.AddDbContext<OrderContext>();
 services.AddAutoMapper(typeof(Program));
+services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 services.AddScoped<BasketOrderingConsumer>();
 services.AddScoped<BasketOrderingConsumerV2>();
 services.AddMassTransit(config =>
