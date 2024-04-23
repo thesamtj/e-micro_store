@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Serilog.Exceptions;
+using Microsoft.Extensions.Configuration;
 
 namespace Common.Logging
 {
@@ -34,18 +35,18 @@ namespace Common.Logging
                     loggerConfiguration.MinimumLevel.Override("Ordering", LogEventLevel.Debug);
                 }
 
-                //var elasticUrl = context.Configuration.GetValue<string>("ElasticConfiguration:Uri");
-                //if (!string.IsNullOrEmpty(elasticUrl))
-                //{
-                //    loggerConfiguration.WriteTo.Elasticsearch(
-                //        new ElasticsearchSinkOptions(new Uri(elasticUrl))
-                //        {
-                //            AutoRegisterTemplate = true,
-                //            AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv8,
-                //            IndexFormat = "EShopping-Logs-{0:yyyy.MM.dd}",
-                //            MinimumLogEventLevel = LogEventLevel.Debug
-                //        });
-                //}
+                var elasticUrl = context.Configuration.GetValue<string>("ElasticConfiguration:Uri");
+                if (!string.IsNullOrEmpty(elasticUrl))
+                {
+                    loggerConfiguration.WriteTo.Elasticsearch(
+                        new ElasticsearchSinkOptions(new Uri(elasticUrl))
+                        {
+                            AutoRegisterTemplate = true,
+                            AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv8,
+                            IndexFormat = "E-MicroStore-Logs-{0:yyyy.MM.dd}",
+                            MinimumLogEventLevel = LogEventLevel.Debug
+                        });
+                }
             };
     }
 }
