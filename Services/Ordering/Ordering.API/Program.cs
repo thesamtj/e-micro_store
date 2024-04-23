@@ -9,16 +9,22 @@ using Microsoft.EntityFrameworkCore;
 using Ordering.API.EventBusConsumer;
 using MassTransit;
 using EventBus.Messages.Common;
+using Common.Logging;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 var services = builder.Services;
+var host = builder.Host;
+
+// Configure Serilog
+host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
-
 services.AddControllers();
 services.AddApiVersioning();
 services.AddApplicationServices();
-services.AddInfraServices(builder.Configuration);
+services.AddInfraServices(configuration);
 services.AddHealthChecks().Services.AddDbContext<OrderContext>();
 services.AddAutoMapper(typeof(Program));
 services.AddScoped<BasketOrderingConsumer>();
@@ -30,7 +36,7 @@ services.AddMassTransit(config =>
     config.AddConsumer<BasketOrderingConsumerV2>();
     config.UsingRabbitMq((ctx, cfg) =>
     {
-        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+        cfg.Host(configuration["EventBusSettings:HostAddress"]);
         //provide the queue name with consumer settings
         cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
         {
@@ -43,6 +49,7 @@ services.AddMassTransit(config =>
         });
     });
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c =>

@@ -3,6 +3,7 @@ using Basket.Application.Handlers;
 using Basket.Core.Repositories;
 using Basket.Infrastructure.Data;
 using Basket.Infrastructure.Repositories;
+using Common.Logging;
 using Discount.Grpc.Protos;
 using HealthChecks.UI.Client;
 using MassTransit;
@@ -12,16 +13,22 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 var services = builder.Services;
+var host = builder.Host;
+
+// Configure Serilog
+host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
 services.AddControllers();
 services.AddApiVersioning();
 services.AddDbContext<BasketContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 });
 services.AddHealthChecks().Services.AddDbContext<BasketContext>();
 
@@ -32,15 +39,16 @@ services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateShoppin
 services.AddScoped<IBasketRepository, BasketRepository>();
 services.AddScoped<DiscountGrpcService>();
 services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
-            (o => o.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
+            (o => o.Address = new Uri(configuration["GrpcSettings:DiscountUrl"]));
 services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((ctx, cfg) =>
     {
-        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+        cfg.Host(configuration["EventBusSettings:HostAddress"]);
     });
 });
 //services.AddMassTransitHostedService(); Remove, it is automatically registered
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
@@ -53,7 +61,6 @@ services.AddControllers(config =>
 {
     config.Filters.Add(new AuthorizeFilter(userPolicy));
 });
-
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

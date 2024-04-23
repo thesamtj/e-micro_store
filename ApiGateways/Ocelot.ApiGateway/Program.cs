@@ -1,12 +1,19 @@
+using Common.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Hosting;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
+var services = builder.Services;
+var host = builder.Host;
+
+// Configure Serilog
+host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
 configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);

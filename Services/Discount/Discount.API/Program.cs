@@ -1,16 +1,25 @@
+using Common.Logging;
 using Discount.API.Services;
 using Discount.Application.Handlers;
 using Discount.Core.IRepositories;
 using Discount.Infrastructure.Data;
 using Discount.Infrastructure.Repositories;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 var services = builder.Services;
+var host = builder.Host;
+
+// Configure Serilog
+host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
 services.AddGrpc();
+
 // configure strongly typed settings object
-services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
+services.Configure<DbSettings>(configuration.GetSection("DbSettings"));
 
 //DI
 services.AddAutoMapper(typeof(Program));

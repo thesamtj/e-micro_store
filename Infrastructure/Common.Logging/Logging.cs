@@ -27,6 +27,7 @@ namespace Common.Logging
                     .WriteTo.Console();
                 if (env.IsDevelopment())
                 {
+                    loggerConfiguration.MinimumLevel.Override("ApiGateways", LogEventLevel.Debug);
                     loggerConfiguration.MinimumLevel.Override("Catalog", LogEventLevel.Debug);
                     loggerConfiguration.MinimumLevel.Override("Basket", LogEventLevel.Debug);
                     loggerConfiguration.MinimumLevel.Override("Discount", LogEventLevel.Debug);
