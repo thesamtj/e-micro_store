@@ -4,6 +4,7 @@ using Basket.Core.Repositories;
 using Basket.Infrastructure.Data;
 using Basket.Infrastructure.Repositories;
 using Common.Logging;
+using Common.Logging.Correlation;
 using Discount.Grpc.Protos;
 using HealthChecks.UI.Client;
 using MassTransit;
@@ -35,7 +36,7 @@ services.AddHealthChecks().Services.AddDbContext<BasketContext>();
 //DI
 services.AddAutoMapper(typeof(Program));
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateShoppingCartCommandHandler).Assembly));
-// services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 services.AddScoped<IBasketRepository, BasketRepository>();
 services.AddScoped<DiscountGrpcService>();
 services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>

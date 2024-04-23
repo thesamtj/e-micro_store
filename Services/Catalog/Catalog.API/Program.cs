@@ -3,6 +3,7 @@ using Catalog.Core.Repositories;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
 using Common.Logging;
+using Common.Logging.Correlation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,7 @@ services.AddHealthChecks()
 //DI
 services.AddAutoMapper(typeof(Program));
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly));
-// services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 services.AddScoped<ICatalogContext, CatalogContext>();
 services.AddScoped<IProductRepository, ProductRepository>();
 services.AddScoped<IBrandRepository, ProductRepository>();

@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Correlation;
 using Discount.API.Services;
 using Discount.Application.Handlers;
 using Discount.Core.IRepositories;
@@ -25,6 +26,7 @@ services.Configure<DbSettings>(configuration.GetSection("DbSettings"));
 services.AddAutoMapper(typeof(Program));
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDiscountCommandHandler).Assembly));
 services.AddSingleton<DiscountContext>();
+services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 services.AddScoped<IDiscountRepository, DiscountRepository>();
 
 var app = builder.Build();
