@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Correlation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
 using Ocelot.Cache.CacheManager;
@@ -14,9 +15,10 @@ var host = builder.Host;
 
 // Configure Serilog
 host.UseSerilog(Logging.ConfigureLogger);
+configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);
 
 // Add services to the container.
-configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);
+services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
 var authScheme = "E-MicroStoreGatewayAuthScheme";
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(authScheme, options =>
@@ -31,6 +33,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //});
 services.AddOcelot()
             .AddCacheManager(o => o.WithDictionaryHandle());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
@@ -46,6 +49,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.AddCorrelationIdMiddleware();
 
 app.UseRouting();
 
