@@ -1,4 +1,5 @@
-﻿using Basket.Application.Commands;
+﻿using Asp.Versioning;
+using Basket.Application.Commands;
 using Basket.Application.Mappers;
 using Basket.Application.Queries;
 using Basket.Application.Responses;
@@ -10,8 +11,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Basket.API.Controllers
+namespace Basket.API.Controllers.V1
 {
+    [ApiVersion("1")]
     public class BasketController : ApiController
     {
         private readonly IMediator _mediator;

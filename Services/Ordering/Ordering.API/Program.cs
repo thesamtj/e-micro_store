@@ -63,6 +63,7 @@ var app = builder.Build();
 
 app.MigrateDatabase<OrderContext>((context, services) =>
 {
+    // GetService<T>() treturns null if it can't find the service
     var logger = services.GetService<ILogger<OrderContextSeed>>();
     OrderContextSeed.SeedAsync(context, logger).Wait();
 });

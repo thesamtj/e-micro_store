@@ -18,11 +18,11 @@ namespace Basket.API.Swagger
         {
             foreach (var descr in _provider.ApiVersionDescriptions)
             {
-                options.SwaggerDoc(descr.GroupName, ProvideApiInfo(descr));
+                options.SwaggerDoc(descr.GroupName, CreateApiInfo(descr));
             }
         }
 
-        private OpenApiInfo ProvideApiInfo(ApiVersionDescription descr)
+        private OpenApiInfo CreateApiInfo(ApiVersionDescription descr)
         {
             var info = new OpenApiInfo()
             {

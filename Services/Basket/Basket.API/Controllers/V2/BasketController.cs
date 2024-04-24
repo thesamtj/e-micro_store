@@ -1,4 +1,5 @@
-﻿using Basket.Application.Mappers;
+﻿using Asp.Versioning;
+using Basket.Application.Mappers;
 using Basket.Application.Queries;
 using Basket.Core.Entities;
 using Common.Logging.Correlation;
@@ -10,14 +11,15 @@ using System.Net;
 
 namespace Basket.API.Controllers.V2
 {
-    public class BasketControllerV2 : ApiControllerV2
+    [ApiVersion("2")]
+    public class BasketController : ApiController
     {
         private readonly IMediator _mediator;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly ILogger<BasketControllerV2> _logger;
+        private readonly ILogger<BasketController> _logger;
         private readonly ICorrelationIdGenerator _correlationIdGenerator;
 
-        public BasketControllerV2(IMediator mediator, IPublishEndpoint publishEndpoint, ILogger<BasketControllerV2> logger, ICorrelationIdGenerator correlationIdGenerator)
+        public BasketController(IMediator mediator, IPublishEndpoint publishEndpoint, ILogger<BasketController> logger, ICorrelationIdGenerator correlationIdGenerator)
         {
             _mediator = mediator;
             _publishEndpoint = publishEndpoint;

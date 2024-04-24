@@ -1,3 +1,6 @@
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using Basket.API.Swagger;
 using Basket.Application.GrpcService;
 using Basket.Application.Handlers;
 using Basket.Core.Repositories;
@@ -13,8 +16,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -26,10 +31,25 @@ host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
 services.AddControllers();
-services.AddApiVersioning();
+services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    //Enable when required
+    // options.ApiVersionReader = ApiVersionReader.Combine(
+    //         new HeaderApiVersionReader("X-Version"),
+    //         new QueryStringApiVersionReader("api-version", "ver"),
+    //         new MediaTypeApiVersionReader("ver")
+    //     );
+}).AddApiExplorer(options =>
+ {
+     options.GroupNameFormat = "'v'VVV";
+     options.SubstituteApiVersionInUrl = true;
+ });
 services.AddDbContext<BasketContext>(opt =>
 {
-    opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+   opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 });
 services.AddHealthChecks().Services.AddDbContext<BasketContext>();
 
@@ -52,10 +72,15 @@ services.AddMassTransit(config =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
+//services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
+services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+services.AddSwaggerGen(options =>
+{
+    options.OperationFilter<SwaggerDefaultValues>();
+});
 
 // Identity Server changes
- var userPolicy = new AuthorizationPolicyBuilder()
+var userPolicy = new AuthorizationPolicyBuilder()
      .RequireAuthenticatedUser()
      .Build();
 services.AddControllers(config =>
@@ -70,13 +95,23 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+// GetRequiredService<T>() throws an InvalidOperationException if it can't find the service
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
+    //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
+    app.UseSwaggerUI(options =>
+    {
+
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 app.UseHttpsRedirection();
