@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Basket.API.Extensions;
 using Basket.API.Swagger;
 using Basket.Application.GrpcService;
 using Basket.Application.Handlers;
@@ -31,22 +32,6 @@ host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
 services.AddControllers();
-services.AddApiVersioning(options =>
-{
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.ReportApiVersions = true;
-    //Enable when required
-    // options.ApiVersionReader = ApiVersionReader.Combine(
-    //         new HeaderApiVersionReader("X-Version"),
-    //         new QueryStringApiVersionReader("api-version", "ver"),
-    //         new MediaTypeApiVersionReader("ver")
-    //     );
-}).AddApiExplorer(options =>
- {
-     options.GroupNameFormat = "'v'VVV";
-     options.SubstituteApiVersionInUrl = true;
- });
 services.AddDbContext<BasketContext>(opt =>
 {
    opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
@@ -71,13 +56,9 @@ services.AddMassTransit(config =>
 //services.AddMassTransitHostedService(); Remove, it is automatically registered
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+services.AddVersioning();
 services.AddEndpointsApiExplorer();
-//services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
-services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-services.AddSwaggerGen(options =>
-{
-    options.OperationFilter<SwaggerDefaultValues>();
-});
+services.AddSwagger();
 
 // Identity Server changes
 var userPolicy = new AuthorizationPolicyBuilder()
