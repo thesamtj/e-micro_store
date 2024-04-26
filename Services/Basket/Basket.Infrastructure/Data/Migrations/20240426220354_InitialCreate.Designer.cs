@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basket.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(BasketContext))]
-    [Migration("20240408175319_InitialCreate")]
+    [Migration("20240426220354_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -49,6 +49,7 @@ namespace Basket.Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShoppingCartUserName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProductId");
@@ -60,9 +61,13 @@ namespace Basket.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Basket.Core.Entities.ShoppingCartItem", b =>
                 {
-                    b.HasOne("Basket.Core.Entities.ShoppingCart", null)
+                    b.HasOne("Basket.Core.Entities.ShoppingCart", "ShoppingCart")
                         .WithMany("Items")
-                        .HasForeignKey("ShoppingCartUserName");
+                        .HasForeignKey("ShoppingCartUserName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("Basket.Core.Entities.ShoppingCart", b =>

@@ -61,19 +61,19 @@ services.AddEndpointsApiExplorer();
 services.AddSwagger();
 
 // Identity Server changes
-var userPolicy = new AuthorizationPolicyBuilder()
-     .RequireAuthenticatedUser()
-     .Build();
-services.AddControllers(config =>
-{
-    config.Filters.Add(new AuthorizeFilter(userPolicy));
-});
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = "https://localhost:9009";
-        options.Audience = "Basket";
-    });
+//var userPolicy = new AuthorizationPolicyBuilder()
+//     .RequireAuthenticatedUser()
+//     .Build();
+//services.AddControllers(config =>
+//{
+//    config.Filters.Add(new AuthorizeFilter(userPolicy));
+//});
+//services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.Authority = "https://localhost:9009";
+//        options.Audience = "Basket";
+//    });
 
 var app = builder.Build();
 // GetRequiredService<T>() throws an InvalidOperationException if it can't find the service

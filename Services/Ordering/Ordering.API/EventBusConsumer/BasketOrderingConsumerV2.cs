@@ -21,8 +21,8 @@ namespace Ordering.API.EventBusConsumer
 
         public async Task Consume(ConsumeContext<BasketCheckoutEventV2> context)
         {
-            //using var scope = _logger.BeginScope("Consuming Basket Checkout Event for {correlationId}",
-            //    context.Message.CorrelationId);
+            using var scope = _logger.BeginScope("Consuming Basket Checkout Event for {correlationId}",
+                context.Message.CorrelationId);
             var command = _mapper.Map<CheckoutOrderCommand>(context.Message);
             //TODO: Need to add required address details.
             PopulateAddressDetails(command);

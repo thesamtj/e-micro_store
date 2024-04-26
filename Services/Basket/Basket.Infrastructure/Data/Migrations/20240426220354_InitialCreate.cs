@@ -30,7 +30,7 @@ namespace Basket.Infrastructure.Data.Migrations
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     ImageFile = table.Column<string>(type: "TEXT", nullable: false),
                     ProductName = table.Column<string>(type: "TEXT", nullable: false),
-                    ShoppingCartUserName = table.Column<string>(type: "TEXT", nullable: true)
+                    ShoppingCartUserName = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,8 @@ namespace Basket.Infrastructure.Data.Migrations
                         name: "FK_ShoppingCartItems_ShoppingCarts_ShoppingCartUserName",
                         column: x => x.ShoppingCartUserName,
                         principalTable: "ShoppingCarts",
-                        principalColumn: "UserName");
+                        principalColumn: "UserName",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

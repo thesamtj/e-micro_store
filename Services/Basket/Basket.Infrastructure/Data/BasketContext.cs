@@ -20,6 +20,19 @@ namespace Basket.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure Primary Key using HasKey method
+            //modelBuilder.Entity<ShoppingCart>(entity =>
+            //{
+            //    entity.HasKey(e => e.UserName);
+            //});
+            //modelBuilder.Entity<ShoppingCartItem>(entity =>
+            //{
+            //    entity.HasKey(e => e.ProductId);
+
+            //    //entity.HasOne(d => d.ShoppingCart)
+            //    //.WithMany(p => p.Items)
+            //    //.HasForeignKey(d => d.ShoppingCartUserName)
+            //    //.OnDelete(DeleteBehavior.ClientCascade);
+            //});
             modelBuilder.Entity<ShoppingCart>().HasKey(s => s.UserName);
             modelBuilder.Entity<ShoppingCartItem>().HasKey(s => s.ProductId);
         }
