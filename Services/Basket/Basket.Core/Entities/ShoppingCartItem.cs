@@ -14,7 +14,7 @@ namespace Basket.Core.Entities
         public string ImageFile { get; set; }
         public string ProductName { get; set; }
         
-        public string ShoppingCartUserName { get; set; } = null!;
-        public virtual ShoppingCart ShoppingCart { get; set; } = null!;
+        //public string ShoppingCartUserName { get; set; } = null!;
+        //public virtual ShoppingCart ShoppingCart { get; set; } = null!;
     }
 }

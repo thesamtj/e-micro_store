@@ -46,7 +46,6 @@ namespace Basket.Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShoppingCartUserName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProductId");
@@ -58,13 +57,9 @@ namespace Basket.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Basket.Core.Entities.ShoppingCartItem", b =>
                 {
-                    b.HasOne("Basket.Core.Entities.ShoppingCart", "ShoppingCart")
+                    b.HasOne("Basket.Core.Entities.ShoppingCart", null)
                         .WithMany("Items")
-                        .HasForeignKey("ShoppingCartUserName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShoppingCart");
+                        .HasForeignKey("ShoppingCartUserName");
                 });
 
             modelBuilder.Entity("Basket.Core.Entities.ShoppingCart", b =>

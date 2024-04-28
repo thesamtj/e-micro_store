@@ -30,7 +30,7 @@ namespace Basket.Infrastructure.Data.Migrations
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     ImageFile = table.Column<string>(type: "TEXT", nullable: false),
                     ProductName = table.Column<string>(type: "TEXT", nullable: false),
-                    ShoppingCartUserName = table.Column<string>(type: "TEXT", nullable: false)
+                    ShoppingCartUserName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
