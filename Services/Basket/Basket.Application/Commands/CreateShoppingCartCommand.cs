@@ -1,4 +1,5 @@
-﻿using Basket.Application.Responses;
+﻿using Basket.Application.Requests;
+using Basket.Application.Responses;
 using Basket.Core.Entities;
 using MediatR;
 using System;
@@ -11,12 +12,13 @@ namespace Basket.Application.Commands
 {
     public class CreateShoppingCartCommand : IRequest<ShoppingCartResponse>
     {
-        public CreateShoppingCartCommand(string userName, List<ShoppingCartItem> items)
+        public string UserName { get; set; }
+        public List<ShoppingCartItemRequest> Items { get; set; }
+
+        public CreateShoppingCartCommand(string userName, List<ShoppingCartItemRequest> items)
         {
             UserName = userName;
             Items = items;
         }
-        public string UserName { get; set; }
-        public List<ShoppingCartItem> Items { get; set; }
     }
 }

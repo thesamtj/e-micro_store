@@ -28,6 +28,10 @@ namespace Basket.Infrastructure.Repositories
                 .Include(y => y.Items)
                 .FirstOrDefaultAsync();
 
+            //var basket = await _context.ShoppingCarts
+            //    .Where(x => x.UserName == userName)
+            //    .FirstOrDefaultAsync();
+
             return basket;
         }
 
