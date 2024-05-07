@@ -7,11 +7,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog",
       "FileCacheOptions": { "TtlSeconds": 30 }
     },
     {
@@ -20,11 +22,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductById/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetAllProducts",
@@ -32,11 +36,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllProducts",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetAllBrands",
@@ -44,11 +50,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllBrands",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetAllTypes",
@@ -56,11 +64,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllTypes",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetProductsByBrandName/{brand}",
@@ -68,11 +78,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9011"
+          "Port": 9011
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductsByBrandName/{brand}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "ServiceName": "catalog",
+      "SwaggerKey": "catalog"
     },
     //Basket API
     {
@@ -81,11 +93,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9012"
+          "Port": 9012
         }
       ],
       "UpstreamPathTemplate": "/Basket/GetBasket/{userName}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "ServiceName": "",
+      "SwaggerKey": "basket"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/DeleteBasket/{userName}",
@@ -93,11 +107,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9012"
+          "Port": 9012
         }
       ],
       "UpstreamPathTemplate": "/Basket/DeleteBasket/{userName}",
-      "UpstreamHttpMethod": [ "DELETE" ]
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/CreateBasket",
@@ -105,16 +121,18 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9012"
+          "Port": 9012
         }
       ],
       "UpstreamPathTemplate": "/Basket/CreateBasket",
       "UpstreamHttpMethod": [
         "POST"
-      ]
-      //      "AuthenticationOptions": {
-      //        "AuthenticationProviderKey": "EShoppingGatewayAuthScheme"
-      //      }
+      ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "E-MicroStoreGatewayAuthScheme"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
@@ -122,11 +140,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9012"
+          "Port": 9012
         }
       ],
       "UpstreamPathTemplate": "/Basket/Checkout",
       "UpstreamHttpMethod": [ "POST" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -141,11 +161,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9012"
+          "Port": 9012
         }
       ],
       "UpstreamPathTemplate": "/Basket/CheckoutV2",
       "UpstreamHttpMethod": [ "POST" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -161,11 +183,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9013"
+          "Port": 9013
         }
       ],
       "UpstreamPathTemplate": "/Discount/{productName}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "ServiceName": "discount",
+      "SwaggerKey": "discount"
     },
     {
       "DownstreamPathTemplate": "/api/v1/Discount",
@@ -173,11 +197,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9013"
+          "Port": 9013
         }
       ],
       "UpstreamPathTemplate": "/Discount",
-      "UpstreamHttpMethod": [ "PUT", "POST" ]
+      "UpstreamHttpMethod": [ "PUT", "POST" ],
+      "ServiceName": "discount",
+      "SwaggerKey": "discount"
     },
     //Order API
     {
@@ -186,11 +212,64 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "9014"
+          "Port": 9014
         }
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "ServiceName": "order",
+      "SwaggerKey": "order"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "catalog",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Catalog API",
+          "Version": "v1",
+          "Url": "https://localhost:9011/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "v1",
+          "Url": "https://localhost:9012/swagger/v1/swagger.json"
+        },
+        {
+          "Name": "Basket API",
+          "Version": "v2",
+          "Url": "https://localhost:9012/swagger/v2/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "discount",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Discount API",
+          "Version": "v1",
+          "Url": "https://localhost:9013/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "order",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Order API",
+          "Version": "v1",
+          "Url": "https://localhost:9014/swagger/v1/swagger.json"
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {

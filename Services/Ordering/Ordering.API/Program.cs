@@ -12,6 +12,9 @@ using EventBus.Messages.Common;
 using Common.Logging;
 using Serilog;
 using Common.Logging.Correlation;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -22,8 +25,6 @@ var host = builder.Host;
 host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
-services.AddControllers();
-services.AddApiVersioning();
 services.AddApplicationServices();
 services.AddInfraServices(configuration);
 services.AddHealthChecks().Services.AddDbContext<OrderContext>();
@@ -52,11 +53,30 @@ services.AddMassTransit(config =>
     });
 });
 
+services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    //Enable when required
+    options.ApiVersionReader = ApiVersionReader.Combine(
+            new HeaderApiVersionReader("x-version"),
+            new QueryStringApiVersionReader("api-version", "ver"),
+            new MediaTypeApiVersionReader("ver"),
+            new UrlSegmentApiVersionReader()
+        );
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering API Microservice", Version = "1" });
 });
 
 var app = builder.Build();
@@ -68,11 +88,14 @@ app.MigrateDatabase<OrderContext>((context, services) =>
     OrderContextSeed.SeedAsync(context, logger).Wait();
 });
 
+// GetRequiredService<T>() throws an InvalidOperationException if it can't find the service
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
+    app.UseSwagger();    
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.API v1"));
 }
 

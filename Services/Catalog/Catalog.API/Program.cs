@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using Catalog.Application.Handlers;
 using Catalog.Core.Repositories;
 using Catalog.Infrastructure.Data;
@@ -24,7 +26,6 @@ var host = builder.Host;
 host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
-services.AddApiVersioning();
 services.AddHealthChecks()
             .AddMongoDb(configuration["DatabaseSettings:ConnectionString"], "Catalog  Mongo Db Health Check",
                 HealthStatus.Degraded);
@@ -37,11 +38,6 @@ services.AddScoped<ICatalogContext, CatalogContext>();
 services.AddScoped<IProductRepository, ProductRepository>();
 services.AddScoped<IBrandRepository, ProductRepository>();
 services.AddScoped<ITypesRepository, ProductRepository>();
-services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
 
 //Identity Server changes
 var userPolicy = new AuthorizationPolicyBuilder()
@@ -63,13 +59,42 @@ services.AddAuthorization(options =>
     options.AddPolicy("CanRead", policy => policy.RequireClaim("scope", "catalogapi.read"));
 });
 
+services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    //Enable when required
+    options.ApiVersionReader = ApiVersionReader.Combine(
+            new HeaderApiVersionReader("x-version"),
+            new QueryStringApiVersionReader("api-version", "ver"),
+            new MediaTypeApiVersionReader("ver"),
+            new UrlSegmentApiVersionReader()
+        );
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen(c => 
+{ 
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog API Microservice", Version = "1" }); 
+});
+
 var app = builder.Build();
+// GetRequiredService<T>() throws an InvalidOperationException if it can't find the service
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.API v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.API v1"));
 }
 
 app.UseHttpsRedirection();

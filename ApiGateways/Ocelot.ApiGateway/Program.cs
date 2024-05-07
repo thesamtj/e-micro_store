@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Values;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,12 +32,14 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    options.Authority = "https://localhost:9009";
 //    options.Audience = "E-MicroStoreGateway";
 //});
+//services.AddOcelot();
 services.AddOcelot()
             .AddCacheManager(o => o.WithDictionaryHandle());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+services.AddSwaggerForOcelot(configuration);
 
 var app = builder.Build();
 
@@ -45,7 +48,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerForOcelotUI(opt =>
+    {
+        opt.PathToSwaggerGenerator = "/swagger/docs";
+    });
+    // app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -59,7 +66,5 @@ app.MapGet("/", async context =>
     await context.Response.WriteAsync(
         "Hello Ocelot");
 });
-
-await app.UseOcelot();
 
 app.Run();

@@ -1,4 +1,3 @@
-using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Basket.API.Extensions;
 using Basket.API.Swagger;
@@ -12,15 +11,9 @@ using Common.Logging.Correlation;
 using Discount.Grpc.Protos;
 using HealthChecks.UI.Client;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Serilog;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -31,7 +24,6 @@ var host = builder.Host;
 host.UseSerilog(Logging.ConfigureLogger);
 
 // Add services to the container.
-services.AddControllers();
 services.AddDbContext<BasketContext>(opt =>
 {
    opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
@@ -54,6 +46,8 @@ services.AddMassTransit(config =>
     });
 });
 //services.AddMassTransitHostedService(); Remove, it is automatically registered
+
+services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddVersioning();
@@ -87,7 +81,6 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
     app.UseSwaggerUI(options =>
     {
-
         foreach (var description in provider.ApiVersionDescriptions)
         {
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
