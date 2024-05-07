@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Ordering.Infrastructure.Data;
 
 namespace Ordering.API.Extensions
 {

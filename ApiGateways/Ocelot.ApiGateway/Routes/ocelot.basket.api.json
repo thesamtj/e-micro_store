@@ -1,0 +1,93 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/GetBasket/{userName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 9012
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/GetBasket/{userName}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/DeleteBasket/{userName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 9012
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/DeleteBasket/{userName}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/CreateBasket",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 9012
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/CreateBasket",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "E-MicroStoreGatewayAuthScheme"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 9012
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/Checkout",
+      "UpstreamHttpMethod": [ "POST" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "3s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/Basket/Checkout",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 9012
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/CheckoutV2",
+      "UpstreamHttpMethod": [ "POST" ],
+      "ServiceName": "basket",
+      "SwaggerKey": "basket",
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "3s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    }
+  ]
+}

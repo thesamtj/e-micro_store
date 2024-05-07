@@ -98,7 +98,7 @@
       ],
       "UpstreamPathTemplate": "/Basket/GetBasket/{userName}",
       "UpstreamHttpMethod": [ "GET" ],
-      "ServiceName": "",
+      "ServiceName": "basket",
       "SwaggerKey": "basket"
     },
     {
@@ -217,14 +217,14 @@
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
       "UpstreamHttpMethod": [ "GET" ],
-      "ServiceName": "order",
-      "SwaggerKey": "order"
+      "ServiceName": "ordering",
+      "SwaggerKey": "ordering"
     }
   ],
   "SwaggerEndPoints": [
     {
       "Key": "catalog",
-      "TransformByOcelotConfig": false,
+      "TransformByOcelotConfig": true,
       "Config": [
         {
           "Name": "Catalog API",
@@ -251,7 +251,7 @@
     },
     {
       "Key": "discount",
-      "TransformByOcelotConfig": false,
+      "TransformByOcelotConfig": true,
       "Config": [
         {
           "Name": "Discount API",
@@ -261,8 +261,8 @@
       ]
     },
     {
-      "Key": "order",
-      "TransformByOcelotConfig": false,
+      "Key": "ordering",
+      "TransformByOcelotConfig": true,
       "Config": [
         {
           "Name": "Order API",
