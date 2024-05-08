@@ -1,5 +1,53 @@
 {
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:9010"
-  }
+  "SwaggerEndPoints": [
+    {
+      "Key": "catalog",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Catalog API",
+          "Version": "1",
+          "Url": "https://localhost:9011/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "1",
+          "Url": "https://localhost:9012/swagger/v1/swagger.json"
+        },
+        {
+          "Name": "Basket API",
+          "Version": "v2",
+          "Url": "https://localhost:9012/swagger/v2/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "discount",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Discount API",
+          "Version": "1",
+          "Url": "https://localhost:9013/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "ordering",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Ordering API",
+          "Version": "1",
+          "Url": "https://localhost:9014/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
 }

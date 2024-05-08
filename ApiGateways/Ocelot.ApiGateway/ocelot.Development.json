@@ -217,8 +217,8 @@
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
       "UpstreamHttpMethod": [ "GET" ],
-      "ServiceName": "order",
-      "SwaggerKey": "order"
+      "ServiceName": "ordering",
+      "SwaggerKey": "ordering"
     }
   ],
   "SwaggerEndPoints": [
@@ -228,7 +228,7 @@
       "Config": [
         {
           "Name": "Catalog API",
-          "Version": "v1",
+          "Version": "1",
           "Url": "https://localhost:9011/swagger/v1/swagger.json"
         }
       ]
@@ -239,12 +239,12 @@
       "Config": [
         {
           "Name": "Basket API",
-          "Version": "v1",
+          "Version": "1",
           "Url": "https://localhost:9012/swagger/v1/swagger.json"
         },
         {
           "Name": "Basket API",
-          "Version": "v2",
+          "Version": "2",
           "Url": "https://localhost:9012/swagger/v2/swagger.json"
         }
       ]
@@ -255,18 +255,18 @@
       "Config": [
         {
           "Name": "Discount API",
-          "Version": "v1",
+          "Version": "1",
           "Url": "https://localhost:9013/swagger/v1/swagger.json"
         }
       ]
     },
     {
-      "Key": "order",
+      "Key": "ordering",
       "TransformByOcelotConfig": true,
       "Config": [
         {
           "Name": "Order API",
-          "Version": "v1",
+          "Version": "1",
           "Url": "https://localhost:9014/swagger/v1/swagger.json"
         }
       ]
