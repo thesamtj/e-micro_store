@@ -20,17 +20,16 @@ var routes = "Routes";
 
 // Configure Serilog
 host.UseSerilog(Logging.ConfigureLogger);
-// configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);
 
 // Add services to the container.
 services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
-var authScheme = "E-MicroStoreGatewayAuthScheme";
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(authScheme, options =>
-        {
-            options.Authority = "https://localhost:9009";
-            options.Audience = "E-MicroStoreGateway";
-        });
+//var authScheme = "E-MicroStoreGatewayAuthScheme";
+//services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//        .AddJwtBearer(authScheme, options =>
+//        {
+//            options.Authority = "https://localhost:9009";
+//            options.Audience = "E-MicroStoreGateway";
+//        });
 //.AddJwtBearer(options =>
 //{
 //    options.Authority = "https://localhost:9009";
@@ -38,6 +37,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// configuration.AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true, true);
 configuration.AddOcelotWithSwaggerSupport(options =>
 {
     options.Folder = routes;
@@ -45,8 +45,9 @@ configuration.AddOcelotWithSwaggerSupport(options =>
 configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddOcelot(routes, environment)
     .AddEnvironmentVariables();
+
 // services.AddOcelot(); only enable if the next line is not present
-services.AddOcelot()
+services.AddOcelot(configuration)
             .AddCacheManager(o => o.WithDictionaryHandle());
 services.AddEndpointsApiExplorer();
 services.AddSwaggerForOcelot(configuration);
@@ -78,5 +79,7 @@ app.MapGet("/", async context =>
     await context.Response.WriteAsync(
         "Hello Ocelot");
 });
+
+await app.UseOcelot();
 
 app.Run();

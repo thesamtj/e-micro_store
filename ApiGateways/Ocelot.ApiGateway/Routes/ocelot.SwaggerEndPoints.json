@@ -22,7 +22,7 @@
         },
         {
           "Name": "Basket API",
-          "Version": "v2",
+          "Version": "2",
           "Url": "https://localhost:9012/swagger/v2/swagger.json"
         }
       ]

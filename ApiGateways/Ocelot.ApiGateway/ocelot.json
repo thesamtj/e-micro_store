@@ -63,7 +63,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "basket",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -136,7 +136,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "basket",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -152,7 +152,7 @@
       "AddQueriesToRequest": {},
       "AuthenticationOptions": {
         "AllowedScopes": [],
-        "AuthenticationProviderKey": "E-MicroStoreGatewayAuthScheme",
+        "AuthenticationProviderKey": null,
         "AuthenticationProviderKeys": []
       },
       "ChangeDownstreamPathTemplate": {},
@@ -209,7 +209,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "basket",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -282,7 +282,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "basket",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -355,7 +355,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "basket",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -428,7 +428,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -503,7 +503,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -577,7 +577,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -651,7 +651,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -725,7 +725,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -799,7 +799,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "catalog",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},
@@ -872,7 +872,7 @@
         "IPBlockedList": [],
         "ExcludeAllowedFromBlocked": false
       },
-      "ServiceName": "ordering",
+      "ServiceName": null,
       "ServiceNamespace": null,
       "Timeout": 0,
       "UpstreamHeaderTransform": {},

@@ -11,7 +11,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog",
       "FileCacheOptions": { "TtlSeconds": 30 }
     },
@@ -26,7 +25,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductById/{id}",
       "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog"
     },
     {
@@ -40,7 +38,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllProducts",
       "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog"
     },
     {
@@ -54,7 +51,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllBrands",
       "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog"
     },
     {
@@ -68,7 +64,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllTypes",
       "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog"
     },
     {
@@ -82,7 +77,6 @@
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductsByBrandName/{brand}",
       "UpstreamHttpMethod": [ "GET" ],
-      "ServiceName": "catalog",
       "SwaggerKey": "catalog"
     }
   ]

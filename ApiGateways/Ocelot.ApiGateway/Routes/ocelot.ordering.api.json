@@ -11,7 +11,6 @@
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
       "UpstreamHttpMethod": [ "GET" ],
-      "ServiceName": "ordering",
       "SwaggerKey": "ordering"
     }
   ]
