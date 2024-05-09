@@ -60,11 +60,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerForOcelotUI(opt =>
-    {
-        opt.PathToSwaggerGenerator = "/swagger/docs";
-        opt.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
-    });
     // app.UseSwaggerUI();
 }
 
@@ -74,12 +69,18 @@ app.AddCorrelationIdMiddleware();
 
 app.UseRouting();
 
+app.UseSwaggerForOcelotUI(opt =>
+{
+    opt.PathToSwaggerGenerator = "/swagger/docs";
+    opt.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
+}).UseOcelot().Wait();
+
+// await app.UseOcelot();
+
 app.MapGet("/", async context =>
 {
     await context.Response.WriteAsync(
         "Hello Ocelot");
 });
-
-await app.UseOcelot();
 
 app.Run();
