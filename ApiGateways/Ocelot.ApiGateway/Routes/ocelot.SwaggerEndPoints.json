@@ -6,7 +6,7 @@
       "Config": [
         {
           "Name": "Catalog API",
-          "Version": "1",
+          "Version": "v1",
           "Url": "https://localhost:9011/swagger/v1/swagger.json"
         }
       ]
@@ -17,12 +17,12 @@
       "Config": [
         {
           "Name": "Basket API",
-          "Version": "1",
+          "Version": "v1",
           "Url": "https://localhost:9012/swagger/v1/swagger.json"
         },
         {
           "Name": "Basket API",
-          "Version": "2",
+          "Version": "v2",
           "Url": "https://localhost:9012/swagger/v2/swagger.json"
         }
       ]
@@ -33,7 +33,7 @@
       "Config": [
         {
           "Name": "Discount API",
-          "Version": "1",
+          "Version": "v1",
           "Url": "https://localhost:9013/swagger/v1/swagger.json"
         }
       ]
@@ -44,7 +44,7 @@
       "Config": [
         {
           "Name": "Ordering API",
-          "Version": "1",
+          "Version": "v1",
           "Url": "https://localhost:9014/swagger/v1/swagger.json"
         }
       ]
